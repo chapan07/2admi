@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Estudiantes</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #333;
+        }
+
+        header {
+            background-color: #0071e3;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header img {
+            width: 120px; 
+            height: auto;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px; 
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .form-container h2 {
+            color: #333;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="password"], input[type="file"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .btn-container button {
+            padding: 8px 18px; 
+            margin: 8px 0;
+            border: none;
+            border-radius: 6px;
+            background-color: #0071e3;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            width: 85%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-container button:hover {
+            background-color: #005bb5;
+        }
+
+        .btn-container button:active {
+            transform: translateY(2px);
+        }
+
+        .profile-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .profile-card {
+            background-color: #fff;
+            width: 220px; 
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .profile-card img {
+            width: 80px; 
+            height:  80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .profile-card h4 {
+            font-size: 16px;
+            color: #0071e3;
+        }
+
+        .profile-card p {
+            font-size: 12px;
+            color: #555;
+        }
+
+        @keyframes rgbAnimation {
+            0% {
+                color: rgb(255, 0, 0);
+            }
+            25% {
+                color: rgb(0, 255, 0);
+            }
+            50% {
+                color: rgb(0, 0, 255);
+            }
+            75% {
+                color: rgb(255, 255, 0);
+            }
+            100% {
+                color: rgb(255, 0, 255);
+            }
+        }
+
+        footer {
+            background-color: #0071e3;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+       
+        #loginContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #loginForm {
+            width: 100%;
+        }
+
+        #loginForm input {
+            margin-bottom: 15px;
+        }
+
+        #loginForm button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://via.placeholder.com/120" alt="Logo">
+    </header>
+
+    <div class="form-container" id="loginContainer">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="button" onclick="login()">Iniciar Sesión</button>
+        </form>
+    </div>
+
+    <div class="form-container" id="formContainer" style="display: none;">
+        <h2>Registro de Estudiantes</h2>
+        <div class="photo-container">
+            <img id="previewImg" src="https://via.placeholder.com/100" alt="Foto">
+        </div>
+        <form id="registrationForm">
+            <input type="file" id="photoInput" accept="image/*" onchange="previewImage(event)">
+            <input type="text" id="nombre" placeholder="Nombre Completo" required>
+            <input type="number" id="matricula" placeholder="Matrícula" required>
+            <input type="date" id="birthYear" placeholder="Fecha de Nacimiento" required>
+        </form>
+
+        <div class="btn-container">
+            <button onclick="addRegistration()">Nuevo Perfil</button>
+            <button onclick="viewProfiles()">Ver Perfiles</button>
+            <button onclick="editProfile()">Editar Perfil</button>
+            <button onclick="deleteProfile()">Borrar Perfil</button>
+        </div>
+    </div>
+
+    <div class="profile-container" id="profileContainer" style="display: none;">
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Todos los derechos reservados para el .</p>
+    </footer>
+
+    <script>
+        const correctUsername = "admin";
+        const correctPassword = "1234";
+
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === correctUsername && password === correctPassword) {
+                document.getElementById("loginContainer").style.display = "none";
+                document.getElementById("formContainer").style.display = "block";
+            } else {
+                alert("Usuario o contraseña incorrectos.");
+            }
+        }
+
+        let selectedProfileIndex = -1;
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const imgElement = document.getElementById("previewImg");
+                imgElement.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        function addRegistration() {
+            const nombre = document.getElementById("nombre").value;
+            const matricula = document.getElementById("matricula").value;
+            const birthYear = document.getElementById("birthYear").value;
+            const photo = document.getElementById("photoInput").files[0];
+
+            if (nombre && matricula && birthYear && photo) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const photoData = reader.result;
+                    const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
+                    profiles.push({ nombre, matricula, birthYear, photoData });
+                    localStorage.setItem("profiles", JSON.stringify(profiles));
+
+                    document.getElementById("registrationForm").reset();
+                    document.getElementById("previewImg").src = "https://via.placeholder.com/100";
+                    alert("Nuevo perfil agregado.");
+                };
+                reader.readAsDataURL(photo);
+            } else {
+                alert("Por favor, completa todos los campos.");
+            }
+        }
+        function viewProfiles() {
+            const profiles = JSON.parse(localStorage.getItem("profiles")) || [];
+            const profileContainer = document.getElementById("profileContainer");
+
+            profileContainer.innerHTML = "";
+            profiles.forEach((profile, index) => {
+                const profileCard = document.createElement("div");
+                profileCard.classList.add("profile-card");
+                profileCard.innerHTML = `
+                    <img src="${profile.photoData}" alt="Foto" />
+                    <h4>${profile.nombre}</h4>
+                    <p>Matrícula: ${profile.matricula}</p>
+                    <p>Fecha de Nacimiento: ${profile.birthYear}</p>
+                `;
+                profileCard.onclick = () => loadProfileForEditing(index); 
+                profileContainer.appendChild(profileCard);
+            });
+
+            document.querySelector(".form-container").style.display = "none";
+            profileContainer.style.display = "flex";
+        }
+
+        function loadProfileForEditing(index) {
+            selectedProfileIndex = index;
+            const profiles = JSON.parse(localStorage.getItem("profiles"));
+            const profile = profiles[index];
+            document.getElementById("nombre").value = profile.nombre;
+            document.getElementById("matricula").value = profile.matricula;
+            document.getElementById("birthYear").value = profile.birthYear;
+            document.getElementById("previewImg").src = profile.photoData;
+            document.querySelector(".form-container").style.display = "block";
+            document.getElementById("profileContainer").style.display = "none";
+        }
+
+        function editProfile() {
+            if (selectedProfileIndex === -1) {
+                alert("Por favor selecciona un perfil para editar.");
+                return;
+            }
+
+            const nombre = document.getElementById("nombre").value;
+            const matricula = document.getElementById("matricula").value;
+            const birthYear = document.getElementById("birthYear").value;
+            const photo = document.getElementById("photoInput").files[0];
+
+            if (nombre && matricula && birthYear) {
+                const profiles = JSON.parse(localStorage.getItem("profiles"));
+                const updatedProfile = { nombre, matricula, birthYear, photoData: profiles[selectedProfileIndex].photoData };
+                if (photo) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        updatedProfile.photoData = reader.result;
+                        profiles[selectedProfileIndex] = updatedProfile;
+                        localStorage.setItem("profiles", JSON.stringify(profiles));
+                        alert("Perfil actualizado.");
+                    };
+                    reader.readAsDataURL(photo);
+                } else {
+                    profiles[selectedProfileIndex] = updatedProfile;
+                    localStorage.setItem("profiles", JSON.stringify(profiles));
+                    alert("Perfil actualizado.");
+                }
+            } else {
+                alert("Por favor, completa todos los campos.");
+            }
+        }
+        function deleteProfile() {
+            if (selectedProfileIndex === -1) {
+                alert("Por favor selecciona un perfil para borrar.");
+                return;
+            }
+
+            const profiles = JSON.parse(localStorage.getItem("profiles"));
+            profiles.splice(selectedProfileIndex, 1);
+            localStorage.setItem("profiles", JSON.stringify(profiles));
+
+            document.getElementById("registrationForm").reset();
+            document.getElementById("previewImg").src = "https://via.placeholder.com/100";
+            alert("Perfil borrado.");
+        }
+    </script>
+</body>
+</html>
